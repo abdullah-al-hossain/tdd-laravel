@@ -20,4 +20,14 @@ class UserController extends Controller
 
         return response($user, Response::HTTP_CREATED);
     }
+
+    public function login(Request $request)
+    {
+        auth()->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ]); 
+
+        return response(['message' => 'authenticated']);
+    }
 }

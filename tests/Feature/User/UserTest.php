@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -28,7 +28,7 @@ class UserTest extends TestCase
         
         $user = $this->post(route('api.user.register'), $this->data);
 
-         $user->assertCreated();
+        $user->assertCreated();
         $this->assertDatabaseHas('users', [
             'email' => $this->data['email'],
             'name'  => $this->data['name'],
