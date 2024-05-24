@@ -56,7 +56,7 @@ class UserTest extends TestCase
 
     }
 
-    public function test_while_registration_email_field_is_required()
+    public function test_while_registration_required_fields_are_required()
     {
         //Arrange 
         $this->withExceptionHandling();
