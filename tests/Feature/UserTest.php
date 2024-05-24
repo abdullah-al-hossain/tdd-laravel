@@ -3,32 +3,35 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_if_user_is_registering_successfully(): void
+    public $data;
+
+    public function setUp(): void
     {
-        $data = [
+        parent::setUp();
+
+        $this->data = [
             'name' => "Abdullah",
             'email'=> "customer@example.com",
             'password' => 'password',
             'password_confirmation' => 'password'
         ];
-        
-        $user = $this->post(route('api.user.register'), $data);
+    }
 
-        $user->assertCreated();
+    public function test_if_user_is_registering_successfully(): void
+    {
+        
+        $user = $this->post(route('api.user.register'), $this->data);
+
+         $user->assertCreated();
         $this->assertDatabaseHas('users', [
-            'email' => $data['email'],
-            'name'  => $data['name'],
+            'email' => $this->data['email'],
+            'name'  => $this->data['name'],
         ]);
     }
 
@@ -36,7 +39,7 @@ class UserTest extends TestCase
     {
         //Arrange
         $this->withExceptionHandling();
-        $data = [
+        $this->data = [
             'name' => "Abdullah",
             'email'=> "customer@example.com",
             'password' => 'password',
@@ -44,12 +47,12 @@ class UserTest extends TestCase
         ];
 
         //Act
-        $this->postJson(route('api.user.register'), $data);
+        $this->postJson(route('api.user.register'), $this->data);
 
         //Assert
         $user = User::latest()->first();
-        $this->assertEquals($data['password'], $data['password_confirmation']);
-        $this->assertTrue(Hash::check($data['password'], $user->password));
+        $this->assertEquals($this->data['password'], $this->data['password_confirmation']);
+        $this->assertTrue(Hash::check($this->data['password'], $user->password));
 
     }
 
