@@ -35,7 +35,7 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_password_field_is_bcrypted_and_confirmation_match()
+    public function test_password_field_is_bcrypted()
     {
         //Arrange
         $this->withExceptionHandling();
@@ -51,7 +51,6 @@ class UserTest extends TestCase
 
         //Assert
         $user = User::latest()->first();
-        $this->assertEquals($this->data['password'], $this->data['password_confirmation']);
         $this->assertTrue(Hash::check($this->data['password'], $user->password));
 
     }
