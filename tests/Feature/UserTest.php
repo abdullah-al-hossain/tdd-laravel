@@ -52,7 +52,6 @@ class UserTest extends TestCase
         $this->assertEquals($data['password'], $data['password_confirmation']);
         $this->assertTrue(Hash::check($data['password'], $user->password));
 
-
     }
 
     public function test_while_registration_email_field_is_required()
