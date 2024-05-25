@@ -2,32 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\LoginRequest;
+use App\Http\Requests\User\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function store(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-            'name' => ['required'],
-            'password' => ['required', 'confirmed'],
-        ]);
-
         $user = User::create($request->all());
 
         return response($user, Response::HTTP_CREATED);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        auth()->attempt([
-            'email' => $request->email,
-            'password' => $request->password
-        ]); 
 
-        return response(['message' => 'authenticated']);
+        $user = User::whereEmail($request->email)->first();
+
+        if($user && Hash::check($request->password, $user->password)) {
+            
+            $token = $user->createToken('token');
+
+            return response([
+                'token' => $token->plainTextToken,
+            ]);
+
+        }
+
+        return response(['errors' => [
+            'email' => 'The provided credentials are incorrect.'
+        ]]);
     }
 }

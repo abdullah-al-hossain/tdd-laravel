@@ -23,9 +23,9 @@ class LoginTest extends TestCase
         ];
         
         //Act
-        $this->postJson(route('api.user.login'), $data);
+        $response = $this->postJson(route('api.user.login'), $data);
         
         //Assert
-        $this->assertAuthenticated();
+        $this->assertArrayHasKey('token', $response->json());
     }
 }

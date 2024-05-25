@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::name('api.')->group(function() {
-    Route::post('user/create', [UserController::class, 'store'])->name('user.register');
+    Route::post('user/create', [UserController::class, 'register'])->name('user.register');
     Route::post('login', [UserController::class, 'login'])->name('user.login');
     
 });
