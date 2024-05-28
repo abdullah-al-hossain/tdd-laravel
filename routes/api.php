@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmailListController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,5 @@ Route::name('api.')->group(function() {
     Route::post('user/create', [UserController::class, 'register'])->name('user.register');
     Route::post('login', [UserController::class, 'login'])->name('user.login');
     
+    Route::post('email-list', [EmailListController::class, 'store'])->name('email-lists.store');
 });
