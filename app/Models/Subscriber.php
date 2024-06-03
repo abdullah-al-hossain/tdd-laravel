@@ -13,6 +13,8 @@ class Subscriber extends Model
         'meta' => 'array',
     ];
 
+    protected $guarded = [];
+
     public function list()
     {
         return $this->belongsTo(EmailList::class);
